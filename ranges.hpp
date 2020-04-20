@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * generic range
+ * Author: Yarin Hananiya
+ * ****************************************************************************/
+#ifndef RANGES_HPP
+#define RANGES_HPP
+
 #include <type_traits> // std::enable_if
 
 namespace ranges {
@@ -45,4 +52,6 @@ private:
     RangeIterator m_end_iter;
 };
 
-}
+} // namespace ranges
+
+#endif

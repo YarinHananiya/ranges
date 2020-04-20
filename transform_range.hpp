@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * tranform range, use as: range | transform(function)
+ * Author: Yarin Hananiya
+ * ****************************************************************************/
+#ifndef TRANFORM_RANGE_HPP
+#define TRANFORM_RANGE_HPP
+
 #include <type_traits> // std::enable_if
 
 #include "ranges.hpp" // ranges::range, ranges::is_range
@@ -85,3 +92,5 @@ auto operator|(const Range& range, transform_adaptor<Func> adaptor) -> ranges::r
 }
 
 } // namespace my_view
+
+#endif
