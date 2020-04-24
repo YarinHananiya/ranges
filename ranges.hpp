@@ -15,8 +15,8 @@ struct is_range : std::false_type {};
 template<typename Range>
 struct is_range<Range, 
                 std::void_t<typename Range::const_iterator>,
-                std::void_t<decltype(std::declval<Range>().begin())>,
-                std::void_t<decltype(std::declval<Range>().end())>> 
+                std::void_t<decltype(std::cbegin(std::declval<Range>()))>,
+                std::void_t<decltype(std::cend(std::declval<Range>()))>> 
         : std::true_type {};
 template<typename Range> 
 constexpr bool is_range_v = is_range<Range>::value;

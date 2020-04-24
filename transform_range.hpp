@@ -39,7 +39,7 @@ public:
     using reference = value_type&;
 
     explicit transform_iterator(UnderlyingIter iter, Func func)
-      : m_iter(iter) , m_func(func) {
+      : m_iter(iter), m_func(func) {
     }
 
     transform_iterator(const transform_iterator&) = default;
@@ -86,9 +86,10 @@ template<typename Range,
          typename = std::enable_if_t<ranges::is_range_v<Range>>,
          typename = std::void_t<typename Range::value_type>,
          typename = std::enable_if_t<std::is_invocable_v<Func, typename Range::value_type>>>
-auto operator|(const Range& range, transform_adaptor<Func> adaptor) -> ranges::range<transform_iterator<typename Range::const_iterator, Func>> {
-    return ranges::range(transform_iterator<typename Range::const_iterator, Func>(range.begin(), adaptor.get_function()), 
-                         transform_iterator<typename Range::const_iterator, Func>(range.end(), adaptor.get_function()));
+auto operator|(const Range& range, transform_adaptor<Func> adaptor) 
+    -> ranges::range<transform_iterator<typename Range::const_iterator, Func>> {
+    return ranges::range(transform_iterator<typename Range::const_iterator, Func>(std::cbegin(range), adaptor.get_function()), 
+                         transform_iterator<typename Range::const_iterator, Func>(std::cend(range), adaptor.get_function()));
 }
 
 } // namespace my_view
