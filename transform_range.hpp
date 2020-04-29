@@ -32,9 +32,9 @@ private:
 template<typename UnderlyingIter, typename Func>
 class transform_iterator {
 public:
-    using iterator_category = typename UnderlyingIter::iterator_category;
-    using value_type = std::invoke_result_t<Func, typename UnderlyingIter::value_type>;
-    using difference_type = typename UnderlyingIter::difference_type;
+    using iterator_category = typename std::iterator_traits<UnderlyingIter>::iterator_category;
+    using value_type = std::invoke_result_t<Func, typename std::iterator_traits<UnderlyingIter>::value_type>;
+    using difference_type = typename std::iterator_traits<UnderlyingIter>::difference_type;
     using pointer = value_type*;
     using reference = value_type&;
 

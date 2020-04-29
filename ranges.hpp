@@ -23,12 +23,9 @@ constexpr bool is_range_v = is_range<Range>::value;
 
 // range
 template<typename RangeIterator,
-         typename = std::void_t<typename RangeIterator::iterator_category>>
+         typename = std::void_t<typename std::iterator_traits<RangeIterator>::iterator_category>>
 class range {
 public:
-	using const_iterator = const RangeIterator;
-	using value_type = typename RangeIterator::value_type;
-
 	explicit range(RangeIterator begin_iter, RangeIterator end_iter)
       : m_begin_iter(begin_iter), m_end_iter(end_iter) {
     }
