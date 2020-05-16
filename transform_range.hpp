@@ -14,7 +14,8 @@ namespace my_view {
 template<typename Func>
 class transform_adaptor {
 public:
-    transform_adaptor(Func func) : m_func(func) {}
+    transform_adaptor(Func func) : m_func(func) {
+    }
     transform_adaptor(const transform_adaptor&) = default;
     transform_adaptor(transform_adaptor&&) = default;
     transform_adaptor& operator=(const transform_adaptor&) = default;
@@ -33,7 +34,8 @@ template<typename UnderlyingIter, typename Func>
 class transform_iterator {
 public:
     using iterator_category = typename std::iterator_traits<UnderlyingIter>::iterator_category;
-    using value_type = std::invoke_result_t<Func, typename std::iterator_traits<UnderlyingIter>::value_type>;
+    using value_type =
+        std::invoke_result_t<Func, typename std::iterator_traits<UnderlyingIter>::value_type>;
     using difference_type = typename std::iterator_traits<UnderlyingIter>::difference_type;
     using pointer = value_type*;
     using reference = value_type&;
@@ -48,7 +50,7 @@ public:
     transform_iterator& operator=(transform_iterator&&) = default;
     ~transform_iterator() = default;
 
-    auto operator++() -> transform_iterator& { 
+    auto operator++() -> transform_iterator& {
         ++m_iter;
         return *this;
     }
@@ -81,15 +83,17 @@ auto transform(Func func) -> transform_adaptor<Func> {
     return transform_adaptor<Func>(func);
 }
 
-template<typename Range, 
-         typename Func, 
+template<typename Range,
+         typename Func,
          typename = std::enable_if_t<ranges::is_range_v<Range>>,
          typename = std::void_t<typename Range::value_type>,
          typename = std::enable_if_t<std::is_invocable_v<Func, typename Range::value_type>>>
-auto operator|(const Range& range, transform_adaptor<Func> adaptor) 
+auto operator|(const Range& range, transform_adaptor<Func> adaptor)
     -> ranges::range<transform_iterator<typename Range::const_iterator, Func>> {
-    return ranges::range(transform_iterator<typename Range::const_iterator, Func>(std::cbegin(range), adaptor.get_function()), 
-                         transform_iterator<typename Range::const_iterator, Func>(std::cend(range), adaptor.get_function()));
+    return ranges::range(transform_iterator<typename Range::const_iterator, Func>(
+                             std::cbegin(range), adaptor.get_function()),
+                         transform_iterator<typename Range::const_iterator, Func>(
+                             std::cend(range), adaptor.get_function()));
 }
 
 } // namespace my_view

@@ -13,20 +13,19 @@ namespace ranges {
 template<typename Range, typename Iter = void, typename Begin = void, typename End = void>
 struct is_range : std::false_type {};
 template<typename Range>
-struct is_range<Range, 
+struct is_range<Range,
                 std::void_t<typename Range::const_iterator>,
                 std::void_t<decltype(std::cbegin(std::declval<Range>()))>,
-                std::void_t<decltype(std::cend(std::declval<Range>()))>> 
-        : std::true_type {};
-template<typename Range> 
+                std::void_t<decltype(std::cend(std::declval<Range>()))>>
+  : std::true_type {};
+template<typename Range>
 constexpr bool is_range_v = is_range<Range>::value;
 
 // range
-template<typename RangeIterator,
-         typename = std::void_t<typename std::iterator_traits<RangeIterator>::iterator_category>>
+template<typename RangeIterator, typename = std::void_t<typename std::iterator_traits<RangeIterator>::iterator_category>>
 class range {
 public:
-	explicit range(RangeIterator begin_iter, RangeIterator end_iter)
+    explicit range(RangeIterator begin_iter, RangeIterator end_iter)
       : m_begin_iter(begin_iter), m_end_iter(end_iter) {
     }
 
